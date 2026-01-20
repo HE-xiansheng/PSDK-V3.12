@@ -570,7 +570,7 @@ start:
         }
 
         // 2.¶©ÔÄÔÆÌ¨Êý¾Ý
-        returnCode = DjiFcSubscription_SubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES,
+        returnCode = DjiFcSubscription_SubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA,
                                                       DJI_DATA_SUBSCRIPTION_TOPIC_50_HZ,
                                                       NULL);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
