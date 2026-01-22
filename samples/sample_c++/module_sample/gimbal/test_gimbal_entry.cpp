@@ -576,17 +576,17 @@ start:
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
             USER_LOG_ERROR("订阅主题 %d 失败，错误码: %d",
-                           DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES, returnCode);
+                           DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, returnCode);
             return;
         }
 
         // 3.获取云台数据
         T_DjiFcSubscriptionGimbalAngles gimbalAngles = {0};
         T_DjiDataTimestamp timestamp = {0};
-        returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES, // 订阅主题
-                                                             (uint8_t *)&gimbalAngles,                // 订阅数据地址
-                                                             sizeof(T_DjiFcSubscriptionGimbalAngles), // 订阅数据长度
-                                                             &timestamp);                             // 时间戳
+        returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, // 订阅主题
+                                                             (uint8_t *)&gimbalAngles,                    // 订阅数据地址
+                                                             sizeof(T_DjiFcSubscriptionGimbalAngles),     // 订阅数据长度
+                                                             &timestamp);                                 // 时间戳
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
             USER_LOG_ERROR("获取云台数据失败，错误码: 0x%08X", returnCode);
