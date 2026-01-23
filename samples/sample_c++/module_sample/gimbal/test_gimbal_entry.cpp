@@ -561,7 +561,14 @@ start:
     }
     case '7':
     {
-        // 1.初始化云台管理器
+        // 1.初始化订阅模块
+        returnCode = DjiFcSubscription_Init();
+        if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
+        {
+            USER_LOG_ERROR("初始化订阅模块失败，错误码: 0x%08X", returnCode);
+            return;
+        }
+        // 2.初始化云台管理器
         returnCode = DjiGimbalManager_Init();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
@@ -569,23 +576,23 @@ start:
             return;
         }
 
-        // 2.订阅云台数据
-        returnCode = DjiFcSubscription_SubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA,
+        // 3.订阅云台数据
+        returnCode = DjiFcSubscription_SubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO1,
                                                       DJI_DATA_SUBSCRIPTION_TOPIC_50_HZ,
                                                       NULL);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
             USER_LOG_ERROR("订阅主题 %d 失败，错误码: %d",
-                           DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, returnCode);
+                           DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO1, returnCode);
             return;
         }
 
         // 3.获取云台数据
-        T_DjiFcSubscriptionThreeGimbalData threeGimbalData = {0};
+        T_DjiFcSubscriptionGimbalAngles gimbalAngles = {0};
         T_DjiDataTimestamp timestamp = {0};
-        returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, // 订阅主题
-                                                             (uint8_t *)&threeGimbalData,                 // 订阅数据地址
-                                                             sizeof(T_DjiFcSubscriptionThreeGimbalData),
+        returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO1, // 订阅主题
+                                                             (uint8_t *)&gimbalAngles,                           // 订阅数据地址
+                                                             sizeof(T_DjiFcSubscriptionGimbalAngles),
                                                              &timestamp); // 时间戳
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
@@ -595,15 +602,29 @@ start:
 
         // 4.显示云台数据
         USER_LOG_INFO("云台1角度(俯仰, 横滚, 偏航): p=%.4f r=%.4f y=%.4f",
-                      threeGimbalData.anglesData[0].pitch,
-                      threeGimbalData.anglesData[0].roll,
-                      threeGimbalData.anglesData[0].yaw); //
+                      gimbalAngles.x,
+                      gimbalAngles.y,
+                      gimbalAngles.z); //
 
         // 5.反初始化云台管理器
         returnCode = DjiGimbalManager_Deinit();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
             USER_LOG_ERROR("反初始化云台管理器失败，错误码: 0x%08X", returnCode);
+        }
+
+        // 取消订阅
+        returnCode = DjiFcSubscription_UnSubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO1);
+        if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
+        {
+            USER_LOG_ERROR("取消订阅失败，错误码: 0x%08X", returnCode);
+        }
+
+        // 反初始化订阅模块
+        returnCode = DjiFcSubscription_DeInit();
+        if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
+        {
+            USER_LOG_ERROR("反初始化订阅模块失败，错误码: 0x%08X", returnCode);
         }
         goto start; // 返回主菜单
         break;
