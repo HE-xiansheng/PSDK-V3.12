@@ -3,7 +3,7 @@
  * @file    test_gimbal_entry.cpp
  * @version V2.0.0
  * @date    2023/3/28
- * @brief   ÔÆÌ¨¹ÜÀíÆ÷²âÊÔ³ÌĞòÈë¿ÚÎÄ¼ş
+ * @brief   äº‘å°ç®¡ç†å™¨æµ‹è¯•ç¨‹åºå…¥å£æ–‡ä»¶
  *
  * @copyright (c) 2018-2023 DJI. All rights reserved.
  *
@@ -39,293 +39,293 @@
 /* Private constants ---------------------------------------------------------*/
 
 /* Private types -------------------------------------------------------------*/
-// ÔÆÌ¨¹ÜÀíÆ÷²âÊÔÑ¡ÏîÃ¶¾Ù
+// äº‘å°ç®¡ç†å™¨æµ‹è¯•é€‰é¡¹æšä¸¾
 typedef enum
 {
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_ON_FREE_MODE,          // 0: ×ÔÓÉÄ£Ê½ÏÂĞı×ªÔÆÌ¨
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_ON_YAW_FOLLOW_MODE,    // 1: YAW¸úËæÄ£Ê½ÏÂĞı×ªÔÆÌ¨
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_PITCH_RANGE_EXTENSION_MODE,      // 2: ÉèÖÃ¸©Ñö½Ç·¶Î§À©Õ¹Ä£Ê½
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_CONTROLLER_MAX_SPEED_PERCENTAGE, // 3: ÉèÖÃ¿ØÖÆÆ÷×î´óËÙ¶È°Ù·Ö±È
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_CONTROLLER_SMOOTH_FACTOR,        // 4: ÉèÖÃ¿ØÖÆÆ÷Æ½»¬Òò×Ó
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_RESET_GIMBAL_SETTINGS,               // 5: ÖØÖÃÔÆÌ¨ÉèÖÃ
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_BY_KEYBOARD,           // 6: ¼üÅÌ¿ØÖÆĞı×ªÔÆÌ¨²¢¶ÁÈ¡»Ø´«Öµ
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_NEW_FEATURE_1,                              // --------------------------------------7: ĞÂ¹¦ÄÜ1 (´ı¶¨)
-    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_QUIT,                                // q: ÍË³ö
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_ON_FREE_MODE,          // 0: è‡ªç”±æ¨¡å¼ä¸‹æ—‹è½¬äº‘å°
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_ON_YAW_FOLLOW_MODE,    // 1: YAWè·Ÿéšæ¨¡å¼ä¸‹æ—‹è½¬äº‘å°
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_PITCH_RANGE_EXTENSION_MODE,      // 2: è®¾ç½®ä¿¯ä»°è§’èŒƒå›´æ‰©å±•æ¨¡å¼
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_CONTROLLER_MAX_SPEED_PERCENTAGE, // 3: è®¾ç½®æ§åˆ¶å™¨æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_CONTROLLER_SMOOTH_FACTOR,        // 4: è®¾ç½®æ§åˆ¶å™¨å¹³æ»‘å› å­
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_RESET_GIMBAL_SETTINGS,               // 5: é‡ç½®äº‘å°è®¾ç½®
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_BY_KEYBOARD,           // 6: é”®ç›˜æ§åˆ¶æ—‹è½¬äº‘å°å¹¶è¯»å–å›ä¼ å€¼
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_NEW_FEATURE_1,                              // --------------------------------------7: æ–°åŠŸèƒ½1 (å¾…å®š)
+    E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_QUIT,                                // q: é€€å‡º
 } E_DjiTestGimbalManagerSampleSelect;
 
 /* Private values -------------------------------------------------------------*/
-// ÔÆÌ¨¹ÜÀíÆ÷²âÊÔÑ¡Ïî²Ëµ¥ÁĞ±í
+// äº‘å°ç®¡ç†å™¨æµ‹è¯•é€‰é¡¹èœå•åˆ—è¡¨
 static const char *s_gimbalManagerSampleList[] = {
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_ON_FREE_MODE] =
-        "| [0] ÔÆÌ¨¹ÜÀíÆ÷Ê¾Àı - ×ÔÓÉÄ£Ê½ÏÂĞı×ªÔÆÌ¨                                          |",
+        "| [0] äº‘å°ç®¡ç†å™¨ç¤ºä¾‹ - è‡ªç”±æ¨¡å¼ä¸‹æ—‹è½¬äº‘å°                                          |",
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_ON_YAW_FOLLOW_MODE] =
-        "| [1] ÔÆÌ¨¹ÜÀíÆ÷Ê¾Àı - YAW¸úËæÄ£Ê½ÏÂĞı×ªÔÆÌ¨                                      |",
+        "| [1] äº‘å°ç®¡ç†å™¨ç¤ºä¾‹ - YAWè·Ÿéšæ¨¡å¼ä¸‹æ—‹è½¬äº‘å°                                      |",
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_PITCH_RANGE_EXTENSION_MODE] =
-        "| [2] ÔÆÌ¨¹ÜÀíÆ÷Ê¾Àı - ÉèÖÃ¸©Ñö½Ç·¶Î§À©Õ¹Ä£Ê½                                      |",
+        "| [2] äº‘å°ç®¡ç†å™¨ç¤ºä¾‹ - è®¾ç½®ä¿¯ä»°è§’èŒƒå›´æ‰©å±•æ¨¡å¼                                      |",
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_CONTROLLER_MAX_SPEED_PERCENTAGE] =
-        "| [3] ÔÆÌ¨¹ÜÀíÆ÷Ê¾Àı - ÉèÖÃ¿ØÖÆÆ÷×î´óËÙ¶È°Ù·Ö±È                                    |",
+        "| [3] äº‘å°ç®¡ç†å™¨ç¤ºä¾‹ - è®¾ç½®æ§åˆ¶å™¨æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”                                    |",
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_SET_CONTROLLER_SMOOTH_FACTOR] =
-        "| [4] ÔÆÌ¨¹ÜÀíÆ÷Ê¾Àı - ÉèÖÃ¿ØÖÆÆ÷Æ½»¬Òò×Ó                                          |",
+        "| [4] äº‘å°ç®¡ç†å™¨ç¤ºä¾‹ - è®¾ç½®æ§åˆ¶å™¨å¹³æ»‘å› å­                                          |",
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_RESET_GIMBAL_SETTINGS] =
-        "| [5] ÔÆÌ¨¹ÜÀíÆ÷Ê¾Àı - ÖØÖÃÔÆÌ¨ÉèÖÃ                                                |",
+        "| [5] äº‘å°ç®¡ç†å™¨ç¤ºä¾‹ - é‡ç½®äº‘å°è®¾ç½®                                                |",
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_ROTATE_GIMBAL_BY_KEYBOARD] =
-        "| [6] ÔÆÌ¨¹ÜÀíÆ÷Ê¾Àı - Í¨¹ı¼üÅÌÊäÈëĞı×ªÔÆÌ¨²¢¶ÁÈ¡»Ø´«Öµ                            |",
+        "| [6] äº‘å°ç®¡ç†å™¨ç¤ºä¾‹ - é€šè¿‡é”®ç›˜è¾“å…¥æ—‹è½¬äº‘å°å¹¶è¯»å–å›ä¼ å€¼                            |",
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_NEW_FEATURE_1] =
-        "| [7] ÔÆÌ¨¹ÜÀíÊ¾Àı - ĞÂµÄ²âÊÔÑ¡Ïî¹¦ÄÜ                                            |",
+        "| [7] äº‘å°ç®¡ç†ç¤ºä¾‹ - æ–°çš„æµ‹è¯•é€‰é¡¹åŠŸèƒ½                                            |",
     [E_DJI_TEST_GIMBAL_MANAGER_SAMPLE_SELECT_QUIT] =
-        "| [q] ÔÆÌ¨¹ÜÀíÆ÷Ê¾Àı - ÍË³ö                                                        |",
+        "| [q] äº‘å°ç®¡ç†å™¨ç¤ºä¾‹ - é€€å‡º                                                        |",
 };
 
 /* Private functions declaration ---------------------------------------------*/
-// ÏÔÊ¾²âÊÔÑ¡ÏîÁĞ±í
+// æ˜¾ç¤ºæµ‹è¯•é€‰é¡¹åˆ—è¡¨
 void DjiTest_GimbalManagerShowSampleSelectList(const char **SampleList, uint8_t size);
 
 /* Exported functions definition ---------------------------------------------*/
 /**
- * @brief ÔÆÌ¨¹ÜÀíÆ÷²âÊÔÖ÷Èë¿Úº¯Êı
- * @note Ìá¹©½»»¥Ê½²Ëµ¥£¬ÔÊĞíÓÃ»§Ñ¡Ôñ²»Í¬µÄÔÆÌ¨²âÊÔ¹¦ÄÜ
+ * @brief äº‘å°ç®¡ç†å™¨æµ‹è¯•ä¸»å…¥å£å‡½æ•°
+ * @note æä¾›äº¤äº’å¼èœå•ï¼Œå…è®¸ç”¨æˆ·é€‰æ‹©ä¸åŒçš„äº‘å°æµ‹è¯•åŠŸèƒ½
  * @retval None
  */
 void DjiUser_RunGimbalManagerSample(void)
 {
-    T_DjiOsalHandler *osalHandler = DjiPlatform_GetOsalHandler(); // »ñÈ¡²Ù×÷ÏµÍ³³éÏó²ã¾ä±ú
-    char inputTestCase;                                           // ÓÃ»§ÊäÈëµÄ²âÊÔÓÃÀıÑ¡Ïî
-    char mountPosition;                                           // ÓÃ»§ÊäÈëµÄÔÆÌ¨¹ÒÔØÎ»ÖÃ
-    E_DjiMountPosition gimbalMountPosition;                       // ÔÆÌ¨¹ÒÔØÎ»ÖÃÃ¶¾Ù
-    T_DjiReturnCode returnCode;                                   // º¯Êı·µ»ØÂë
+    T_DjiOsalHandler *osalHandler = DjiPlatform_GetOsalHandler(); // è·å–æ“ä½œç³»ç»ŸæŠ½è±¡å±‚å¥æŸ„
+    char inputTestCase;                                           // ç”¨æˆ·è¾“å…¥çš„æµ‹è¯•ç”¨ä¾‹é€‰é¡¹
+    char mountPosition;                                           // ç”¨æˆ·è¾“å…¥çš„äº‘å°æŒ‚è½½ä½ç½®
+    E_DjiMountPosition gimbalMountPosition;                       // äº‘å°æŒ‚è½½ä½ç½®æšä¸¾
+    T_DjiReturnCode returnCode;                                   // å‡½æ•°è¿”å›ç 
 
-// ¿ªÊ¼±êÇ©£¬ÓÃÓÚ·µ»Øµ½²Ëµ¥Ñ¡Ôñ
+// å¼€å§‹æ ‡ç­¾ï¼Œç”¨äºè¿”å›åˆ°èœå•é€‰æ‹©
 start:
-    osalHandler->TaskSleepMs(100); // ÑÓÊ±100ms£¬È·±£Êä³öÏÔÊ¾ÍêÕû
+    osalHandler->TaskSleepMs(100); // å»¶æ—¶100msï¼Œç¡®ä¿è¾“å‡ºæ˜¾ç¤ºå®Œæ•´
 
-    // ÏÔÊ¾ÔÆÌ¨¹ÒÔØÎ»ÖÃÑ¡Ôñ²Ëµ¥
+    // æ˜¾ç¤ºäº‘å°æŒ‚è½½ä½ç½®é€‰æ‹©èœå•
     std::cout
-        << "| ¿ÉÓÃµÄ¹ÒÔØÎ»ÖÃ:                                                                          |"
+        << "| å¯ç”¨çš„æŒ‚è½½ä½ç½®:                                                                          |"
         << std::endl;
     std::cout
-        << "| [1 ~ 4] Ñ¡Ôñ1~4ºÅÔÆÌ¨¹ÒÔØÎ»ÖÃ                                                              |"
+        << "| [1 ~ 4] é€‰æ‹©1~4å·äº‘å°æŒ‚è½½ä½ç½®                                                              |"
         << std::endl;
     std::cout
-        << "| [q] ÍË³ö                                                                                 |"
+        << "| [q] é€€å‡º                                                                                 |"
         << std::endl;
 
-    std::cin >> mountPosition; // ¶ÁÈ¡ÓÃ»§ÊäÈëµÄ¹ÒÔØÎ»ÖÃ
+    std::cin >> mountPosition; // è¯»å–ç”¨æˆ·è¾“å…¥çš„æŒ‚è½½ä½ç½®
 
-    // Èç¹ûÓÃ»§Ñ¡ÔñÍË³ö
+    // å¦‚æœç”¨æˆ·é€‰æ‹©é€€å‡º
     if (mountPosition == 'q')
     {
         return;
     }
 
-    // ÑéÖ¤¹ÒÔØÎ»ÖÃÊäÈëÊÇ·ñÓĞĞ§£¨1-4£©
+    // éªŒè¯æŒ‚è½½ä½ç½®è¾“å…¥æ˜¯å¦æœ‰æ•ˆï¼ˆ1-4ï¼‰
     if (mountPosition > '4' || mountPosition < '1')
     {
-        USER_LOG_ERROR("ÊäÈëµÄ¹ÒÔØÎ»ÖÃÎŞĞ§");
-        goto start; // ÊäÈëÎŞĞ§£¬·µ»ØÖØĞÂÊäÈë
+        USER_LOG_ERROR("è¾“å…¥çš„æŒ‚è½½ä½ç½®æ— æ•ˆ");
+        goto start; // è¾“å…¥æ— æ•ˆï¼Œè¿”å›é‡æ–°è¾“å…¥
     }
 
-    // ½«×Ö·û×ª»»ÎªÃ¶¾ÙÖµ£¨'1'->1, '2'->2, µÈ£©
+    // å°†å­—ç¬¦è½¬æ¢ä¸ºæšä¸¾å€¼ï¼ˆ'1'->1, '2'->2, ç­‰ï¼‰
     gimbalMountPosition = E_DjiMountPosition(mountPosition - '0');
 
-    osalHandler->TaskSleepMs(100); // ÑÓÊ±100ms
+    osalHandler->TaskSleepMs(100); // å»¶æ—¶100ms
 
-    // ÏÔÊ¾²âÊÔ¹¦ÄÜÑ¡Ôñ²Ëµ¥
+    // æ˜¾ç¤ºæµ‹è¯•åŠŸèƒ½é€‰æ‹©èœå•
     std::cout
-        << "| ¿ÉÓÃÃüÁî:                                                                                  |"
+        << "| å¯ç”¨å‘½ä»¤:                                                                                  |"
         << std::endl;
     DjiTest_GimbalManagerShowSampleSelectList(s_gimbalManagerSampleList,
                                               UTIL_ARRAY_SIZE(s_gimbalManagerSampleList));
 
-    std::cin >> inputTestCase; // ¶ÁÈ¡ÓÃ»§ÊäÈëµÄ²âÊÔÑ¡Ïî
+    std::cin >> inputTestCase; // è¯»å–ç”¨æˆ·è¾“å…¥çš„æµ‹è¯•é€‰é¡¹
 
-    // ¸ù¾İÓÃ»§Ñ¡ÔñÖ´ĞĞÏàÓ¦µÄ²âÊÔ¹¦ÄÜ
+    // æ ¹æ®ç”¨æˆ·é€‰æ‹©æ‰§è¡Œç›¸åº”çš„æµ‹è¯•åŠŸèƒ½
     switch (inputTestCase)
     {
-    case '0': // ×ÔÓÉÄ£Ê½ÏÂĞı×ªÔÆÌ¨
+    case '0': // è‡ªç”±æ¨¡å¼ä¸‹æ—‹è½¬äº‘å°
         DjiTest_GimbalManagerRunSample(gimbalMountPosition, DJI_GIMBAL_MODE_FREE);
-        goto start; // Ö´ĞĞÍê³Éºó·µ»Ø²Ëµ¥
-    case '1':       // YAW¸úËæÄ£Ê½ÏÂĞı×ªÔÆÌ¨
+        goto start; // æ‰§è¡Œå®Œæˆåè¿”å›èœå•
+    case '1':       // YAWè·Ÿéšæ¨¡å¼ä¸‹æ—‹è½¬äº‘å°
         DjiTest_GimbalManagerRunSample(gimbalMountPosition, DJI_GIMBAL_MODE_YAW_FOLLOW);
         goto start;
     case '2':
-    {                       // ÉèÖÃ¸©Ñö½Ç·¶Î§À©Õ¹Ä£Ê½
-        int32_t enableFlag; // ÆôÓÃ±êÖ¾£¨0:½ûÓÃ, 1:ÆôÓÃ£©
+    {                       // è®¾ç½®ä¿¯ä»°è§’èŒƒå›´æ‰©å±•æ¨¡å¼
+        int32_t enableFlag; // å¯ç”¨æ ‡å¿—ï¼ˆ0:ç¦ç”¨, 1:å¯ç”¨ï¼‰
 
-        osalHandler->TaskSleepMs(10); // ÑÓÊ±10ms
-        printf("ÊäÈëÆôÓÃ±êÖ¾(0:½ûÓÃ, 1:ÆôÓÃ): ");
-        scanf("%d", &enableFlag); // ¶ÁÈ¡ÓÃ»§ÊäÈëµÄÆôÓÃ±êÖ¾
+        osalHandler->TaskSleepMs(10); // å»¶æ—¶10ms
+        printf("è¾“å…¥å¯ç”¨æ ‡å¿—(0:ç¦ç”¨, 1:å¯ç”¨): ");
+        scanf("%d", &enableFlag); // è¯»å–ç”¨æˆ·è¾“å…¥çš„å¯ç”¨æ ‡å¿—
 
-        // ³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷
+        // åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨
         returnCode = DjiGimbalManager_Init();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+            USER_LOG_ERROR("åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
             return;
         }
 
-        // ÉèÖÃ¸©Ñö½Ç·¶Î§À©Õ¹Ä£Ê½
+        // è®¾ç½®ä¿¯ä»°è§’èŒƒå›´æ‰©å±•æ¨¡å¼
         returnCode = DjiGimbalManager_SetPitchRangeExtensionEnabled(gimbalMountPosition, (bool)enableFlag);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("ÉèÖÃÊ§°Ü!");
+            USER_LOG_ERROR("è®¾ç½®å¤±è´¥!");
         }
 
-        USER_LOG_INFO("³É¹¦ÉèÖÃÔÆÌ¨¸©Ñö½Ç·¶Î§À©Õ¹Ä£Ê½Îª %d!", enableFlag);
+        USER_LOG_INFO("æˆåŠŸè®¾ç½®äº‘å°ä¿¯ä»°è§’èŒƒå›´æ‰©å±•æ¨¡å¼ä¸º %d!", enableFlag);
 
-        goto start; // ·µ»Ø²Ëµ¥
+        goto start; // è¿”å›èœå•
         break;
     }
     case '3':
-    {                       // ÉèÖÃ¿ØÖÆÆ÷×î´óËÙ¶È°Ù·Ö±È
-        int32_t percentage; // ËÙ¶È°Ù·Ö±È£¨0-100£©
+    {                       // è®¾ç½®æ§åˆ¶å™¨æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”
+        int32_t percentage; // é€Ÿåº¦ç™¾åˆ†æ¯”ï¼ˆ0-100ï¼‰
 
         osalHandler->TaskSleepMs(10);
-        printf("ÊäÈëYAWÖá×î´óËÙ¶È°Ù·Ö±È: ");
-        scanf("%d", &percentage); // ¶ÁÈ¡YAWÖáËÙ¶È°Ù·Ö±È
+        printf("è¾“å…¥YAWè½´æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”: ");
+        scanf("%d", &percentage); // è¯»å–YAWè½´é€Ÿåº¦ç™¾åˆ†æ¯”
 
-        // ³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷
+        // åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨
         returnCode = DjiGimbalManager_Init();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+            USER_LOG_ERROR("åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
             return;
         }
 
-        // ÉèÖÃYAWÖá×î´óËÙ¶È°Ù·Ö±È
+        // è®¾ç½®YAWè½´æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”
         returnCode = DjiGimbalManager_SetControllerMaxSpeedPercentage(gimbalMountPosition,
                                                                       DJI_GIMBAL_AXIS_YAW,
                                                                       (uint8_t)percentage);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("ÉèÖÃÊ§°Ü!");
+            USER_LOG_ERROR("è®¾ç½®å¤±è´¥!");
         }
 
-        USER_LOG_INFO("³É¹¦ÉèÖÃYAWÖá×î´óËÙ¶È°Ù·Ö±ÈÎª %d!", percentage);
+        USER_LOG_INFO("æˆåŠŸè®¾ç½®YAWè½´æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”ä¸º %d!", percentage);
 
         osalHandler->TaskSleepMs(10);
-        printf("ÊäÈëPITCHÖá×î´óËÙ¶È°Ù·Ö±È: ");
-        scanf("%d", &percentage); // ¶ÁÈ¡PITCHÖáËÙ¶È°Ù·Ö±È
+        printf("è¾“å…¥PITCHè½´æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”: ");
+        scanf("%d", &percentage); // è¯»å–PITCHè½´é€Ÿåº¦ç™¾åˆ†æ¯”
 
-        // ÉèÖÃPITCHÖá×î´óËÙ¶È°Ù·Ö±È
+        // è®¾ç½®PITCHè½´æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”
         returnCode = DjiGimbalManager_SetControllerMaxSpeedPercentage(gimbalMountPosition,
                                                                       DJI_GIMBAL_AXIS_PITCH,
                                                                       (uint8_t)percentage);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("ÉèÖÃÊ§°Ü!");
+            USER_LOG_ERROR("è®¾ç½®å¤±è´¥!");
         }
 
-        USER_LOG_INFO("³É¹¦ÉèÖÃPITCHÖá×î´óËÙ¶È°Ù·Ö±ÈÎª %d!", percentage);
+        USER_LOG_INFO("æˆåŠŸè®¾ç½®PITCHè½´æœ€å¤§é€Ÿåº¦ç™¾åˆ†æ¯”ä¸º %d!", percentage);
 
-        goto start; // ·µ»Ø²Ëµ¥
+        goto start; // è¿”å›èœå•
         break;
     }
     case '4':
-    {                   // ÉèÖÃ¿ØÖÆÆ÷Æ½»¬Òò×Ó
-        int32_t factor; // Æ½»¬Òò×ÓÖµ
+    {                   // è®¾ç½®æ§åˆ¶å™¨å¹³æ»‘å› å­
+        int32_t factor; // å¹³æ»‘å› å­å€¼
 
         osalHandler->TaskSleepMs(10);
-        printf("ÊäÈëYAWÖáÆ½»¬Òò×Ó: ");
-        scanf("%d", &factor); // ¶ÁÈ¡YAWÖáÆ½»¬Òò×Ó
+        printf("è¾“å…¥YAWè½´å¹³æ»‘å› å­: ");
+        scanf("%d", &factor); // è¯»å–YAWè½´å¹³æ»‘å› å­
 
-        // ³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷
+        // åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨
         returnCode = DjiGimbalManager_Init();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+            USER_LOG_ERROR("åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
             return;
         }
 
-        // ÉèÖÃYAWÖáÆ½»¬Òò×Ó
+        // è®¾ç½®YAWè½´å¹³æ»‘å› å­
         returnCode = DjiGimbalManager_SetControllerSmoothFactor(gimbalMountPosition,
                                                                 DJI_GIMBAL_AXIS_YAW,
                                                                 (uint8_t)factor);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("ÉèÖÃÊ§°Ü!");
+            USER_LOG_ERROR("è®¾ç½®å¤±è´¥!");
         }
 
-        USER_LOG_INFO("³É¹¦ÉèÖÃYAWÖáÆ½»¬Òò×ÓÎª %d!", factor);
+        USER_LOG_INFO("æˆåŠŸè®¾ç½®YAWè½´å¹³æ»‘å› å­ä¸º %d!", factor);
 
         osalHandler->TaskSleepMs(10);
-        printf("ÊäÈëPITCHÖáÆ½»¬Òò×Ó: ");
-        scanf("%d", &factor); // ¶ÁÈ¡PITCHÖáÆ½»¬Òò×Ó
+        printf("è¾“å…¥PITCHè½´å¹³æ»‘å› å­: ");
+        scanf("%d", &factor); // è¯»å–PITCHè½´å¹³æ»‘å› å­
 
-        // ÉèÖÃPITCHÖáÆ½»¬Òò×Ó
+        // è®¾ç½®PITCHè½´å¹³æ»‘å› å­
         returnCode = DjiGimbalManager_SetControllerSmoothFactor(gimbalMountPosition,
                                                                 DJI_GIMBAL_AXIS_PITCH,
                                                                 (uint8_t)factor);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("ÉèÖÃÊ§°Ü!");
+            USER_LOG_ERROR("è®¾ç½®å¤±è´¥!");
         }
 
-        USER_LOG_INFO("³É¹¦ÉèÖÃPITCHÖáÆ½»¬Òò×ÓÎª %d!", factor);
+        USER_LOG_INFO("æˆåŠŸè®¾ç½®PITCHè½´å¹³æ»‘å› å­ä¸º %d!", factor);
 
-        goto start; // ·µ»Ø²Ëµ¥
+        goto start; // è¿”å›èœå•
         break;
     }
     case '5':
-    { // ÖØÖÃÔÆÌ¨ÉèÖÃ
+    { // é‡ç½®äº‘å°è®¾ç½®
 
-        // ³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷
+        // åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨
         returnCode = DjiGimbalManager_Init();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+            USER_LOG_ERROR("åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
             return;
         }
 
-        // »Ö¸´ÔÆÌ¨³ö³§ÉèÖÃ
+        // æ¢å¤äº‘å°å‡ºå‚è®¾ç½®
         returnCode = DjiGimbalManager_RestoreFactorySettings(gimbalMountPosition);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("ÖØÖÃÊ§°Ü!");
+            USER_LOG_ERROR("é‡ç½®å¤±è´¥!");
         }
 
-        USER_LOG_INFO("³É¹¦ÖØÖÃÔÆÌ¨³ö³§ÉèÖÃ!");
+        USER_LOG_INFO("æˆåŠŸé‡ç½®äº‘å°å‡ºå‚è®¾ç½®!");
 
-        goto start; // ·µ»Ø²Ëµ¥
+        goto start; // è¿”å›èœå•
         break;
     }
     case '6':
-    {                                                       // ¼üÅÌ¿ØÖÆĞı×ªÔÆÌ¨²¢¶ÁÈ¡»Ø´«Öµ
-        uint32_t gimbalMode;                                // ÔÆÌ¨Ä£Ê½
-        uint32_t rotateMode;                                // Ğı×ªÄ£Ê½
-        dji_f32_t pitch, roll, yaw;                         // ¸©Ñö¡¢ºá¹ö¡¢Æ«º½½Ç¶È
-        T_DjiGimbalManagerRotation rotation;                // ÔÆÌ¨Ğı×ª²ÎÊı½á¹¹Ìå
-        T_DjiAircraftInfoBaseInfo baseInfo;                 // ·É»ú»ù±¾ĞÅÏ¢
-        E_DjiAircraftSeries aircraftSeries;                 // ·É»úÏµÁĞ
-        E_DjiFcSubscriptionTopic topicOfPayloadGimablAngle; // ÔÆÌ¨½Ç¶È¶©ÔÄÖ÷Ìâ
+    {                                                       // é”®ç›˜æ§åˆ¶æ—‹è½¬äº‘å°å¹¶è¯»å–å›ä¼ å€¼
+        uint32_t gimbalMode;                                // äº‘å°æ¨¡å¼
+        uint32_t rotateMode;                                // æ—‹è½¬æ¨¡å¼
+        dji_f32_t pitch, roll, yaw;                         // ä¿¯ä»°ã€æ¨ªæ»šã€åèˆªè§’åº¦
+        T_DjiGimbalManagerRotation rotation;                // äº‘å°æ—‹è½¬å‚æ•°ç»“æ„ä½“
+        T_DjiAircraftInfoBaseInfo baseInfo;                 // é£æœºåŸºæœ¬ä¿¡æ¯
+        E_DjiAircraftSeries aircraftSeries;                 // é£æœºç³»åˆ—
+        E_DjiFcSubscriptionTopic topicOfPayloadGimablAngle; // äº‘å°è§’åº¦è®¢é˜…ä¸»é¢˜
 
-        // ³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷
+        // åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨
         returnCode = DjiGimbalManager_Init();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+            USER_LOG_ERROR("åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
             return;
         }
 
-        // »ñÈ¡·É»ú»ù±¾ĞÅÏ¢
+        // è·å–é£æœºåŸºæœ¬ä¿¡æ¯
         returnCode = DjiAircraftInfo_GetBaseInfo(&baseInfo);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("»ñÈ¡·É»ú»ù±¾ĞÅÏ¢Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
-            goto end; // Ìø×ªµ½ÇåÀíÍË³ö
+            USER_LOG_ERROR("è·å–é£æœºåŸºæœ¬ä¿¡æ¯å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
+            goto end; // è·³è½¬åˆ°æ¸…ç†é€€å‡º
         }
 
-        aircraftSeries = baseInfo.aircraftSeries; // »ñÈ¡·É»úÏµÁĞ
+        aircraftSeries = baseInfo.aircraftSeries; // è·å–é£æœºç³»åˆ—
 
-        // ¸ù¾İ·É»úÏµÁĞ¶©ÔÄ²»Í¬µÄÊı¾İÖ÷Ìâ
+        // æ ¹æ®é£æœºç³»åˆ—è®¢é˜…ä¸åŒçš„æ•°æ®ä¸»é¢˜
         if (aircraftSeries == DJI_AIRCRAFT_SERIES_M300 || aircraftSeries == DJI_AIRCRAFT_SERIES_M350)
         {
-            // M300/M350ÏµÁĞĞèÒª¶©ÔÄIMU×ËÌ¬µ¼º½Êı¾İºÍËÄÔªÊıÊı¾İ
+            // M300/M350ç³»åˆ—éœ€è¦è®¢é˜…IMUå§¿æ€å¯¼èˆªæ•°æ®å’Œå››å…ƒæ•°æ•°æ®
             returnCode = DjiFcSubscription_SubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_IMU_ATTI_NAVI_DATA_WITH_TIMESTAMP,
                                                           DJI_DATA_SUBSCRIPTION_TOPIC_50_HZ,
                                                           NULL);
             if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
             {
-                USER_LOG_ERROR("¶©ÔÄÖ÷Ìâ %d Ê§°Ü£¬´íÎóÂë: %d",
+                USER_LOG_ERROR("è®¢é˜…ä¸»é¢˜ %d å¤±è´¥ï¼Œé”™è¯¯ç : %d",
                                DJI_FC_SUBSCRIPTION_TOPIC_IMU_ATTI_NAVI_DATA_WITH_TIMESTAMP, returnCode);
                 goto end;
             }
@@ -335,46 +335,46 @@ start:
                                                           NULL);
             if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
             {
-                USER_LOG_ERROR("¶©ÔÄÖ÷Ìâ %d Ê§°Ü£¬´íÎóÂë: %d",
+                USER_LOG_ERROR("è®¢é˜…ä¸»é¢˜ %d å¤±è´¥ï¼Œé”™è¯¯ç : %d",
                                DJI_FC_SUBSCRIPTION_TOPIC_QUATERNION, returnCode);
                 goto end;
             }
         }
 
-        // ¸ù¾İ·É»úÏµÁĞ¶©ÔÄÔÆÌ¨½Ç¶ÈÊı¾İ
+        // æ ¹æ®é£æœºç³»åˆ—è®¢é˜…äº‘å°è§’åº¦æ•°æ®
         if (aircraftSeries == DJI_AIRCRAFT_SERIES_M300 || aircraftSeries == DJI_AIRCRAFT_SERIES_M350)
         {
-            // M300/M350ÏµÁĞ¶©ÔÄÈıÔÆÌ¨Êı¾İÖ÷Ìâ
+            // M300/M350ç³»åˆ—è®¢é˜…ä¸‰äº‘å°æ•°æ®ä¸»é¢˜
             returnCode = DjiFcSubscription_SubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA,
                                                           DJI_DATA_SUBSCRIPTION_TOPIC_50_HZ,
                                                           NULL);
             if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
             {
-                USER_LOG_ERROR("¶©ÔÄÖ÷Ìâ %d Ê§°Ü£¬´íÎóÂë: %d",
+                USER_LOG_ERROR("è®¢é˜…ä¸»é¢˜ %d å¤±è´¥ï¼Œé”™è¯¯ç : %d",
                                DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, returnCode);
                 goto end;
             }
-            USER_LOG_INFO("³É¹¦¶©ÔÄÖ÷Ìâ DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA.");
+            USER_LOG_INFO("æˆåŠŸè®¢é˜…ä¸»é¢˜ DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA.");
         }
         else if (aircraftSeries == DJI_AIRCRAFT_SERIES_M30 || aircraftSeries == DJI_AIRCRAFT_SERIES_M3 ||
                  aircraftSeries == DJI_AIRCRAFT_SERIES_M3D)
         {
-            // M30/M3/M3DÏµÁĞ¶©ÔÄÔÆÌ¨½Ç¶ÈÖ÷Ìâ
+            // M30/M3/M3Dç³»åˆ—è®¢é˜…äº‘å°è§’åº¦ä¸»é¢˜
             topicOfPayloadGimablAngle = DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES;
             returnCode = DjiFcSubscription_SubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES,
                                                           DJI_DATA_SUBSCRIPTION_TOPIC_50_HZ,
                                                           NULL);
             if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
             {
-                USER_LOG_ERROR("¶©ÔÄÖ÷Ìâ %d Ê§°Ü£¬´íÎóÂë: %d",
+                USER_LOG_ERROR("è®¢é˜…ä¸»é¢˜ %d å¤±è´¥ï¼Œé”™è¯¯ç : %d",
                                DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES, returnCode);
                 goto end;
             }
-            USER_LOG_INFO("³É¹¦¶©ÔÄÖ÷Ìâ DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES.");
+            USER_LOG_INFO("æˆåŠŸè®¢é˜…ä¸»é¢˜ DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES.");
         }
         else if (aircraftSeries == DJI_AIRCRAFT_SERIES_M400)
         {
-            // M400ÏµÁĞ¸ù¾İ¹ÒÔØÎ»ÖÃÑ¡Ôñ²»Í¬µÄÔÆÌ¨½Ç¶ÈÖ÷Ìâ
+            // M400ç³»åˆ—æ ¹æ®æŒ‚è½½ä½ç½®é€‰æ‹©ä¸åŒçš„äº‘å°è§’åº¦ä¸»é¢˜
             topicOfPayloadGimablAngle = gimbalMountPosition == 1 ? DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO1 : gimbalMountPosition == 2 ? DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO2
                                                                                                                     : gimbalMountPosition == 3   ? DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO3
                                                                                                                     : gimbalMountPosition == 4   ? DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO4
@@ -384,110 +384,110 @@ start:
                                                           NULL);
             if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
             {
-                USER_LOG_ERROR("¶©ÔÄÖ÷Ìâ %d Ê§°Ü£¬´íÎóÂë: %d",
+                USER_LOG_ERROR("è®¢é˜…ä¸»é¢˜ %d å¤±è´¥ï¼Œé”™è¯¯ç : %d",
                                DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES, returnCode);
                 goto end;
             }
-            USER_LOG_INFO("³É¹¦¶©ÔÄÖ÷Ìâ DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO%d.", gimbalMountPosition);
+            USER_LOG_INFO("æˆåŠŸè®¢é˜…ä¸»é¢˜ DJI_FC_SUBSCRIPTION_TOPIC_GIMBAL_ANGLES_ON_POS_NO%d.", gimbalMountPosition);
         }
 
-        // ½øÈë¼üÅÌ¿ØÖÆÑ­»·
+        // è¿›å…¥é”®ç›˜æ§åˆ¶å¾ªç¯
         while (1)
         {
-            T_DjiFcSubscriptionQuaternion quat;                             // ËÄÔªÊıÊı¾İ½á¹¹
-            T_DjiFcSubscriptionThreeGimbalData threeGimbalData = {0};       // ÈıÔÆÌ¨Êı¾İ£¨M300/M350£©
-            T_DjiFcSubscriptionGimbalAngles gimbalAngles = {0};             // ÔÆÌ¨½Ç¶ÈÊı¾İ£¨ÆäËû»úĞÍ£©
-            T_DjiDataTimestamp timestamp = {0};                             // Êı¾İÊ±¼ä´Á
-            dji_f32_t nPitch, nRoll, nYaw;                                  // ·É»ú×ËÌ¬½Ç
-            dji_f32_t qPitch, qRoll, qYaw;                                  // ÔÆÌ¨ËÄÔªÊı×ª»»µÄ½Ç¶È
-            dji_f32_t yawOffset = 0;                                        // Æ«º½½ÇÆ«ÒÆÁ¿
-            T_DjiFcSubscriptionImuAttiNaviDataWithTimestamp naviData = {0}; // µ¼º½Êı¾İ
+            T_DjiFcSubscriptionQuaternion quat;                             // å››å…ƒæ•°æ•°æ®ç»“æ„
+            T_DjiFcSubscriptionThreeGimbalData threeGimbalData = {0};       // ä¸‰äº‘å°æ•°æ®ï¼ˆM300/M350ï¼‰
+            T_DjiFcSubscriptionGimbalAngles gimbalAngles = {0};             // äº‘å°è§’åº¦æ•°æ®ï¼ˆå…¶ä»–æœºå‹ï¼‰
+            T_DjiDataTimestamp timestamp = {0};                             // æ•°æ®æ—¶é—´æˆ³
+            dji_f32_t nPitch, nRoll, nYaw;                                  // é£æœºå§¿æ€è§’
+            dji_f32_t qPitch, qRoll, qYaw;                                  // äº‘å°å››å…ƒæ•°è½¬æ¢çš„è§’åº¦
+            dji_f32_t yawOffset = 0;                                        // åèˆªè§’åç§»é‡
+            T_DjiFcSubscriptionImuAttiNaviDataWithTimestamp naviData = {0}; // å¯¼èˆªæ•°æ®
 
-            osalHandler->TaskSleepMs(5); // ÑÓÊ±5ms
+            osalHandler->TaskSleepMs(5); // å»¶æ—¶5ms
 
-            // ÏÔÊ¾ÊäÈëÌáÊ¾
-            printf("ÔÆÌ¨Ä£Ê½: 0:×ÔÓÉÄ£Ê½, 1:FPVÄ£Ê½, 2:YAW¸úËæÄ£Ê½, 3:ÍË³öÊ¾Àı\n");
-            printf("Ğı×ªÄ£Ê½: 0:Ïà¶Ô½Ç¶È, 1:¾ø¶Ô½Ç¶È\n");
-            printf("ÇëÊäÈëÔÆÌ¨Ä£Ê½¡¢Ğı×ªÄ£Ê½¡¢¸©Ñö½Ç¡¢ºá¹ö½Ç¡¢Æ«º½½Ç(¾ø¶Ô½Ç¶ÈÄ£Ê½ÏÂ·¶Î§Îª0~360¶È): ");
+            // æ˜¾ç¤ºè¾“å…¥æç¤º
+            printf("äº‘å°æ¨¡å¼: 0:è‡ªç”±æ¨¡å¼, 1:FPVæ¨¡å¼, 2:YAWè·Ÿéšæ¨¡å¼, 3:é€€å‡ºç¤ºä¾‹\n");
+            printf("æ—‹è½¬æ¨¡å¼: 0:ç›¸å¯¹è§’åº¦, 1:ç»å¯¹è§’åº¦\n");
+            printf("è¯·è¾“å…¥äº‘å°æ¨¡å¼ã€æ—‹è½¬æ¨¡å¼ã€ä¿¯ä»°è§’ã€æ¨ªæ»šè§’ã€åèˆªè§’(ç»å¯¹è§’åº¦æ¨¡å¼ä¸‹èŒƒå›´ä¸º0~360åº¦): ");
 
-            // ¶ÁÈ¡ÓÃ»§ÊäÈë
+            // è¯»å–ç”¨æˆ·è¾“å…¥
             scanf("%d", &gimbalMode);
             if (gimbalMode == 3)
-            { // Èç¹ûÊäÈë3ÔòÍË³öÑ­»·
+            { // å¦‚æœè¾“å…¥3åˆ™é€€å‡ºå¾ªç¯
                 break;
             }
 
             scanf("%d %f %f %f", &rotateMode, &pitch, &roll, &yaw);
 
-            printf("ÔÆÌ¨Ä£Ê½ %d, Ğı×ªÄ£Ê½ %d, ¸©Ñö½Ç %f, ºá¹ö½Ç %f, Æ«º½½Ç %f\n",
+            printf("äº‘å°æ¨¡å¼ %d, æ—‹è½¬æ¨¡å¼ %d, ä¿¯ä»°è§’ %f, æ¨ªæ»šè§’ %f, åèˆªè§’ %f\n",
                    gimbalMode, rotateMode, pitch, roll, yaw);
 
-            // ÉèÖÃÔÆÌ¨Ä£Ê½
+            // è®¾ç½®äº‘å°æ¨¡å¼
             returnCode = DjiGimbalManager_SetMode(gimbalMountPosition, (E_DjiGimbalMode)gimbalMode);
             if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
             {
-                USER_LOG_ERROR("DjiGimbalManager_SetMode ·µ»Ø´íÎóÂë: 0x%08X", returnCode);
+                USER_LOG_ERROR("DjiGimbalManager_SetMode è¿”å›é”™è¯¯ç : 0x%08X", returnCode);
                 goto end;
             }
 
-            // ÉèÖÃĞı×ª²ÎÊı
+            // è®¾ç½®æ—‹è½¬å‚æ•°
             rotation.rotationMode = (E_DjiGimbalRotationMode)rotateMode;
             rotation.pitch = pitch;
             rotation.roll = roll;
             rotation.yaw = yaw;
-            rotation.time = 0.5; // Ğı×ªÊ±¼ä¹Ì¶¨Îª0.5Ãë
+            rotation.time = 0.5; // æ—‹è½¬æ—¶é—´å›ºå®šä¸º0.5ç§’
 
-            // M300/M350ÏµÁĞÌØÊâ´¦Àí£º¼ÆËãÆ«º½½ÇÆ«ÒÆ
+            // M300/M350ç³»åˆ—ç‰¹æ®Šå¤„ç†ï¼šè®¡ç®—åèˆªè§’åç§»
             if (aircraftSeries == DJI_AIRCRAFT_SERIES_M300 || aircraftSeries == DJI_AIRCRAFT_SERIES_M350)
             {
-                osalHandler->TaskSleepMs(20); // ÑÓÊ±20ms
+                osalHandler->TaskSleepMs(20); // å»¶æ—¶20ms
 
-                // »ñÈ¡IMU×ËÌ¬µ¼º½Êı¾İ
+                // è·å–IMUå§¿æ€å¯¼èˆªæ•°æ®
                 returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_IMU_ATTI_NAVI_DATA_WITH_TIMESTAMP,
                                                                      (uint8_t *)&naviData,
                                                                      sizeof(T_DjiFcSubscriptionImuAttiNaviDataWithTimestamp),
                                                                      &timestamp);
                 if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
                 {
-                    USER_LOG_ERROR("»ñÈ¡IMU×ËÌ¬µ¼º½Êı¾İÊ§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+                    USER_LOG_ERROR("è·å–IMUå§¿æ€å¯¼èˆªæ•°æ®å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
                 }
 
-                // ´ÓËÄÔªÊı¼ÆËã·É»úÆ«º½½Ç
-                // ¹«Ê½: yaw = atan2(2*(q1*q2 + q0*q3), 1 - 2*(q2? + q3?)) * 180/¦Ğ
+                // ä»å››å…ƒæ•°è®¡ç®—é£æœºåèˆªè§’
+                // å…¬å¼: yaw = atan2(2*(q1*q2 + q0*q3), 1 - 2*(q2? + q3?)) * 180/Ï€
                 nYaw = (dji_f64_t)atan2f(2 * naviData.q[1] * naviData.q[2] + 2 * naviData.q[0] * naviData.q[3],
                                          -2 * naviData.q[2] * naviData.q[2] - 2 * naviData.q[3] * naviData.q[3] + 1) *
                        57.3;
 
-                // »ñÈ¡ÔÆÌ¨ËÄÔªÊıÊı¾İ
+                // è·å–äº‘å°å››å…ƒæ•°æ•°æ®
                 returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_QUATERNION,
                                                                      (uint8_t *)&quat,
                                                                      sizeof(T_DjiFcSubscriptionQuaternion),
                                                                      &timestamp);
                 if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
                 {
-                    USER_LOG_ERROR("»ñÈ¡ËÄÔªÊıÊı¾İÊ§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+                    USER_LOG_ERROR("è·å–å››å…ƒæ•°æ•°æ®å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
                     goto end;
                 }
 
-                // ´ÓÔÆÌ¨ËÄÔªÊı¼ÆËãÆ«º½½Ç
+                // ä»äº‘å°å››å…ƒæ•°è®¡ç®—åèˆªè§’
                 qYaw = (dji_f64_t)atan2f(2 * quat.q1 * quat.q2 + 2 * quat.q0 * quat.q3,
                                          -2 * quat.q2 * quat.q2 - 2 * quat.q3 * quat.q3 + 1) *
                        57.3;
 
-                // ¼ÆËãÆ«º½½ÇÆ«ÒÆÁ¿£¨·É»úÆ«º½½Ç - ÔÆÌ¨Æ«º½½Ç£©
+                // è®¡ç®—åèˆªè§’åç§»é‡ï¼ˆé£æœºåèˆªè§’ - äº‘å°åèˆªè§’ï¼‰
                 yawOffset = nYaw - qYaw;
 
-                // Èç¹ûÊÇ¾ø¶Ô½Ç¶ÈÄ£Ê½£¬ĞèÒª²¹³¥Æ«ÒÆÁ¿
+                // å¦‚æœæ˜¯ç»å¯¹è§’åº¦æ¨¡å¼ï¼Œéœ€è¦è¡¥å¿åç§»é‡
                 if (rotation.rotationMode == DJI_GIMBAL_ROTATION_MODE_ABSOLUTE_ANGLE)
                 {
                     rotation.yaw += yawOffset;
                 }
             }
 
-            // Ö´ĞĞÔÆÌ¨Ğı×ª
+            // æ‰§è¡Œäº‘å°æ—‹è½¬
             returnCode = DjiGimbalManager_Rotate(gimbalMountPosition, rotation);
 
-            // ¼ì²éÊÇ·ñÎªÏŞÎ»´íÎó
+            // æ£€æŸ¥æ˜¯å¦ä¸ºé™ä½é”™è¯¯
             if (returnCode == DJI_ERROR_GIMBAL_MODULE_CODE_PITCH_REACH_POSITIVE_LIMIT ||
                 returnCode == DJI_ERROR_GIMBAL_MODULE_CODE_PITCH_REACH_NEGATIVE_LIMIT ||
                 returnCode == DJI_ERROR_GIMBAL_MODULE_CODE_ROLL_REACH_POSITIVE_LIMIT ||
@@ -495,38 +495,38 @@ start:
                 returnCode == DJI_ERROR_GIMBAL_MODULE_CODE_YAW_REACH_POSITIVE_LIMIT ||
                 returnCode == DJI_ERROR_GIMBAL_MODULE_CODE_YAW_REACH_NEGATIVE_LIMIT)
             {
-                USER_LOG_WARN("ÒÑ´ïµ½ÏŞÎ»!"); // ¾¯¸æÈÕÖ¾£¬²»ÊÇ´íÎó
+                USER_LOG_WARN("å·²è¾¾åˆ°é™ä½!"); // è­¦å‘Šæ—¥å¿—ï¼Œä¸æ˜¯é”™è¯¯
             }
             else if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
             {
-                USER_LOG_ERROR("ÔÆÌ¨Ğı×ªÊ§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+                USER_LOG_ERROR("äº‘å°æ—‹è½¬å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
                 goto end;
             }
 
-            osalHandler->TaskSleepMs(2000); // µÈ´ı2Ãë£¬ÈÃÔÆÌ¨Íê³ÉĞı×ª
+            osalHandler->TaskSleepMs(2000); // ç­‰å¾…2ç§’ï¼Œè®©äº‘å°å®Œæˆæ—‹è½¬
 
-            // ¶ÁÈ¡ÔÆÌ¨Êµ¼Ê½Ç¶È²¢ÏÔÊ¾
+            // è¯»å–äº‘å°å®é™…è§’åº¦å¹¶æ˜¾ç¤º
             if (aircraftSeries == DJI_AIRCRAFT_SERIES_M300 || aircraftSeries == DJI_AIRCRAFT_SERIES_M350)
             {
-                // M300/M350ÏµÁĞ£º´ÓÈıÔÆÌ¨Êı¾İÖĞ¶ÁÈ¡
+                // M300/M350ç³»åˆ—ï¼šä»ä¸‰äº‘å°æ•°æ®ä¸­è¯»å–
                 returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA,
                                                                      (uint8_t *)&threeGimbalData,
                                                                      sizeof(T_DjiFcSubscriptionThreeGimbalData),
                                                                      &timestamp);
                 if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
                 {
-                    USER_LOG_ERROR("»ñÈ¡ÈıÔÆÌ¨Êı¾İÊ§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+                    USER_LOG_ERROR("è·å–ä¸‰äº‘å°æ•°æ®å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
                     goto end;
                 }
 
-                // ½«¸º½Ç¶È×ª»»Îª0-360¶È·¶Î§
+                // å°†è´Ÿè§’åº¦è½¬æ¢ä¸º0-360åº¦èŒƒå›´
                 if (threeGimbalData.anglesData[0].yaw < 0)
                 {
                     threeGimbalData.anglesData[0].yaw = 360 + threeGimbalData.anglesData[0].yaw;
                 }
 
-                // ÏÔÊ¾¶ÁÈ¡µÄÔÆÌ¨½Ç¶È
-                USER_LOG_INFO("¶ÁÈ¡ÔÆÌ¨½Ç¶È(¸©Ñö, ºá¹ö, Æ«º½): p=%.4f r=%.4f y=%.4f",
+                // æ˜¾ç¤ºè¯»å–çš„äº‘å°è§’åº¦
+                USER_LOG_INFO("è¯»å–äº‘å°è§’åº¦(ä¿¯ä»°, æ¨ªæ»š, åèˆª): p=%.4f r=%.4f y=%.4f",
                               threeGimbalData.anglesData[gimbalMountPosition - 1].pitch,
                               threeGimbalData.anglesData[gimbalMountPosition - 1].roll,
                               threeGimbalData.anglesData[gimbalMountPosition - 1].yaw);
@@ -534,25 +534,25 @@ start:
             else if (aircraftSeries == DJI_AIRCRAFT_SERIES_M30 || aircraftSeries == DJI_AIRCRAFT_SERIES_M3 ||
                      aircraftSeries == DJI_AIRCRAFT_SERIES_M3D || aircraftSeries == DJI_AIRCRAFT_SERIES_M400)
             {
-                // ÆäËûÏµÁĞ£º´ÓÔÆÌ¨½Ç¶ÈÊı¾İÖĞ¶ÁÈ¡
+                // å…¶ä»–ç³»åˆ—ï¼šä»äº‘å°è§’åº¦æ•°æ®ä¸­è¯»å–
                 returnCode = DjiFcSubscription_GetLatestValueOfTopic(topicOfPayloadGimablAngle,
                                                                      (uint8_t *)&gimbalAngles,
                                                                      sizeof(T_DjiFcSubscriptionGimbalAngles),
                                                                      &timestamp);
                 if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
                 {
-                    USER_LOG_ERROR("»ñÈ¡ÔÆÌ¨½Ç¶ÈÊı¾İÊ§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+                    USER_LOG_ERROR("è·å–äº‘å°è§’åº¦æ•°æ®å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
                     goto end;
                 }
 
-                // ½«¸º½Ç¶È×ª»»Îª0-360¶È·¶Î§
+                // å°†è´Ÿè§’åº¦è½¬æ¢ä¸º0-360åº¦èŒƒå›´
                 if (gimbalAngles.z < 0)
                 {
                     gimbalAngles.z = 360 + gimbalAngles.z;
                 }
 
-                // ÏÔÊ¾¶ÁÈ¡µÄÔÆÌ¨½Ç¶È
-                USER_LOG_INFO("¶ÁÈ¡ÔÆÌ¨½Ç¶È(¸©Ñö, ºá¹ö, Æ«º½): p=%.4f r=%.4f y=%.4f",
+                // æ˜¾ç¤ºè¯»å–çš„äº‘å°è§’åº¦
+                USER_LOG_INFO("è¯»å–äº‘å°è§’åº¦(ä¿¯ä»°, æ¨ªæ»š, åèˆª): p=%.4f r=%.4f y=%.4f",
                               gimbalAngles.x, gimbalAngles.y, gimbalAngles.z);
             }
         }
@@ -561,87 +561,87 @@ start:
     }
     case '7':
     {
-        // 1.³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷
+        // 1.åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨
         returnCode = DjiGimbalManager_Init();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+            USER_LOG_ERROR("åˆå§‹åŒ–äº‘å°ç®¡ç†å™¨å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
             return;
         }
 
-        // 2.¶©ÔÄÔÆÌ¨Êı¾İ
+        // 2.è®¢é˜…äº‘å°æ•°æ®
         returnCode = DjiFcSubscription_SubscribeTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA,
                                                       DJI_DATA_SUBSCRIPTION_TOPIC_50_HZ,
                                                       NULL);
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("¶©ÔÄÖ÷Ìâ %d Ê§°Ü£¬´íÎóÂë: %d",
+            USER_LOG_ERROR("è®¢é˜…ä¸»é¢˜ %d å¤±è´¥ï¼Œé”™è¯¯ç : %d",
                            DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, returnCode);
             return;
         }
 
-        // 3.»ñÈ¡ÔÆÌ¨Êı¾İ
+        // 3.è·å–äº‘å°æ•°æ®
         T_DjiFcSubscriptionThreeGimbalData threeGimbalData = {0};
         T_DjiDataTimestamp timestamp = {0};
-        returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, // ¶©ÔÄÖ÷Ìâ
-                                                             (uint8_t *)&threeGimbalData,                 // ¶©ÔÄÊı¾İµØÖ·
+        returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, // è®¢é˜…ä¸»é¢˜
+                                                             (uint8_t *)&threeGimbalData,                 // è®¢é˜…æ•°æ®åœ°å€
                                                              sizeof(T_DjiFcSubscriptionThreeGimbalData),
-                                                             &timestamp); // Ê±¼ä´Á
+                                                             &timestamp); // æ—¶é—´æˆ³
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("»ñÈ¡ÔÆÌ¨Êı¾İÊ§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+            USER_LOG_ERROR("è·å–äº‘å°æ•°æ®å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
             return;
         }
 
-        // 4.ÏÔÊ¾ÔÆÌ¨Êı¾İ
-        USER_LOG_INFO("ÔÆÌ¨1½Ç¶È(¸©Ñö, ºá¹ö, Æ«º½): p=%.4f r=%.4f y=%.4f",
+        // 4.æ˜¾ç¤ºäº‘å°æ•°æ®
+        USER_LOG_INFO("äº‘å°1è§’åº¦(ä¿¯ä»°, æ¨ªæ»š, åèˆª): p=%.4f r=%.4f y=%.4f",
                       threeGimbalData.anglesData[0].pitch,
                       threeGimbalData.anglesData[0].roll,
                       threeGimbalData.anglesData[0].yaw); //
 
-        // 5.·´³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷
+        // 5.ååˆå§‹åŒ–äº‘å°ç®¡ç†å™¨
         returnCode = DjiGimbalManager_Deinit();
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
-            USER_LOG_ERROR("·´³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+            USER_LOG_ERROR("ååˆå§‹åŒ–äº‘å°ç®¡ç†å™¨å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
         }
-        goto start; // ·µ»ØÖ÷²Ëµ¥
+        goto start; // è¿”å›ä¸»èœå•
         break;
     }
-    case 'q': // ÍË³ö³ÌĞò
+    case 'q': // é€€å‡ºç¨‹åº
         break;
-    default: // ÎŞĞ§ÊäÈë
-        USER_LOG_ERROR("ÊäÈëµÄÃüÁîÎŞĞ§");
-        goto start; // ·µ»ØÖØĞÂÊäÈë
+    default: // æ— æ•ˆè¾“å…¥
+        USER_LOG_ERROR("è¾“å…¥çš„å‘½ä»¤æ— æ•ˆ");
+        goto start; // è¿”å›é‡æ–°è¾“å…¥
     }
 
-// ÇåÀíÍË³ö±êÇ©
+// æ¸…ç†é€€å‡ºæ ‡ç­¾
 end:
-    // ·´³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷
+    // ååˆå§‹åŒ–äº‘å°ç®¡ç†å™¨
     returnCode = DjiGimbalManager_Deinit();
     if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
     {
-        USER_LOG_ERROR("·´³õÊ¼»¯ÔÆÌ¨¹ÜÀíÆ÷Ê§°Ü£¬´íÎóÂë: 0x%08X", returnCode);
+        USER_LOG_ERROR("ååˆå§‹åŒ–äº‘å°ç®¡ç†å™¨å¤±è´¥ï¼Œé”™è¯¯ç : 0x%08X", returnCode);
         return;
     }
 
-    USER_LOG_INFO("ÔÆÌ¨Ê¾Àı³ÌĞò½áÊø");
+    USER_LOG_INFO("äº‘å°ç¤ºä¾‹ç¨‹åºç»“æŸ");
 
     return;
 }
 
 /* Private functions definition-----------------------------------------------*/
 /**
- * @brief ÏÔÊ¾²âÊÔÑ¡ÏîÁĞ±í
- * @param SampleList Ñ¡Ïî×Ö·û´®Êı×é
- * @param size Êı×é´óĞ¡
+ * @brief æ˜¾ç¤ºæµ‹è¯•é€‰é¡¹åˆ—è¡¨
+ * @param SampleList é€‰é¡¹å­—ç¬¦ä¸²æ•°ç»„
+ * @param size æ•°ç»„å¤§å°
  * @retval None
  */
 void DjiTest_GimbalManagerShowSampleSelectList(const char **SampleList, uint8_t size)
 {
     uint8_t i = 0;
 
-    // ±éÀú²¢ÏÔÊ¾ËùÓĞÑ¡Ïî
+    // éå†å¹¶æ˜¾ç¤ºæ‰€æœ‰é€‰é¡¹
     for (i = 0; i < size; i++)
     {
         std::cout << SampleList[i] << std::endl;

@@ -1,9 +1,9 @@
 /**
  ********************************************************************
  * @file    main.cpp
- * @brief   PSDK C++Ê¾Àı³ÌĞòÖ÷Èë¿ÚÎÄ¼ş - Manifold2Æ½Ì¨
- * @details ±¾³ÌĞòÌá¹©ÁËPSDK¸÷¹¦ÄÜÄ£¿éµÄ½»»¥Ê½²âÊÔ²Ëµ¥£¬
- *          ÓÃ»§¿ÉÒÔÍ¨¹ıÊäÈëÃüÁîÀ´²âÊÔ²»Í¬µÄ¹¦ÄÜÄ£¿é
+ * @brief   PSDK C++ç¤ºä¾‹ç¨‹åºä¸»å…¥å£æ–‡ä»¶ - Manifold2å¹³å°
+ * @details æœ¬ç¨‹åºæä¾›äº†PSDKå„åŠŸèƒ½æ¨¡å—çš„äº¤äº’å¼æµ‹è¯•èœå•ï¼Œ
+ *          ç”¨æˆ·å¯ä»¥é€šè¿‡è¾“å…¥å‘½ä»¤æ¥æµ‹è¯•ä¸åŒçš„åŠŸèƒ½æ¨¡å—
  *
  * @copyright (c) 2021 DJI. All rights reserved.
  *
@@ -25,38 +25,38 @@
  */
 
 /* Includes ------------------------------------------------------------------*/
-// ÊµÊ±ÊÓÆµÁ÷Ïà¹ØÍ·ÎÄ¼ş
+// å®æ—¶è§†é¢‘æµç›¸å…³å¤´æ–‡ä»¶
 #include <liveview/test_liveview_entry.hpp>
-// ¸ĞÖªÏµÍ³Ïà¹ØÍ·ÎÄ¼ş
+// æ„ŸçŸ¥ç³»ç»Ÿç›¸å…³å¤´æ–‡ä»¶
 #include <perception/test_perception_entry.hpp>
 #include <perception/test_lidar_entry.hpp>
 #include <perception/test_radar_entry.hpp>
-// ·ÉĞĞ¿ØÖÆÏà¹ØÍ·ÎÄ¼ş
+// é£è¡Œæ§åˆ¶ç›¸å…³å¤´æ–‡ä»¶
 #include <flight_control/test_flight_control.h>
 #include <flight_controller/test_flight_controller_entry.h>
-// ÔÆÌ¨¿ØÖÆÏà¹ØÍ·ÎÄ¼ş
+// äº‘å°æ§åˆ¶ç›¸å…³å¤´æ–‡ä»¶
 #include <gimbal/test_gimbal_entry.hpp>
 #include <gimbal_emu/test_payload_gimbal_emu.h>
-// Ïà»úÏà¹ØÍ·ÎÄ¼ş
+// ç›¸æœºç›¸å…³å¤´æ–‡ä»¶
 #include <camera_emu/test_payload_cam_emu_media.h>
 #include <camera_emu/test_payload_cam_emu_base.h>
 #include "camera_manager/test_camera_manager_entry.h"
-// Ó¦ÓÃ³ÌĞòÀàÍ·ÎÄ¼ş
+// åº”ç”¨ç¨‹åºç±»å¤´æ–‡ä»¶
 #include "application.hpp"
-// ·É¿ØÊı¾İ¶©ÔÄÍ·ÎÄ¼ş
+// é£æ§æ•°æ®è®¢é˜…å¤´æ–‡ä»¶
 #include "fc_subscription/test_fc_subscription.h"
-// ÈÕÖ¾ÏµÍ³Í·ÎÄ¼ş
+// æ—¥å¿—ç³»ç»Ÿå¤´æ–‡ä»¶
 #include <dji_logger.h>
-// Ğ¡²¿¼şÏµÍ³Í·ÎÄ¼ş
+// å°éƒ¨ä»¶ç³»ç»Ÿå¤´æ–‡ä»¶
 #include "widget/test_widget.h"
 #include "widget/test_widget_speaker.h"
-// µçÔ´¹ÜÀíÍ·ÎÄ¼ş
+// ç”µæºç®¡ç†å¤´æ–‡ä»¶
 #include <power_management/test_power_management.h>
-// Êı¾İ´«ÊäÍ·ÎÄ¼ş
+// æ•°æ®ä¼ è¾“å¤´æ–‡ä»¶
 #include "data_transmission/test_data_transmission.h"
-// ¶¨Î»ÏµÍ³Í·ÎÄ¼ş
+// å®šä½ç³»ç»Ÿå¤´æ–‡ä»¶
 #include <positioning/test_positioning.h>
-// ½¡¿µ¹ÜÀíÏµÍ³Í·ÎÄ¼ş
+// å¥åº·ç®¡ç†ç³»ç»Ÿå¤´æ–‡ä»¶
 #include <hms_manager/hms_manager_entry.h>
 
 /* Private constants ---------------------------------------------------------*/
@@ -69,92 +69,92 @@
 
 /* Exported functions definition ---------------------------------------------*/
 /**
- * @brief Ö÷º¯Êı - PSDK C++Ê¾Àı³ÌĞòÈë¿Ú
- * @param argc ÃüÁîĞĞ²ÎÊı¸öÊı
- * @param argv ÃüÁîĞĞ²ÎÊıÊı×é
- * @return int ³ÌĞòÍË³öÂë£¨±¾³ÌĞòÎªÑ­»·ÔËĞĞ£¬Õı³£Çé¿öÏÂ²»»áÍË³ö£©
+ * @brief ä¸»å‡½æ•° - PSDK C++ç¤ºä¾‹ç¨‹åºå…¥å£
+ * @param argc å‘½ä»¤è¡Œå‚æ•°ä¸ªæ•°
+ * @param argv å‘½ä»¤è¡Œå‚æ•°æ•°ç»„
+ * @return int ç¨‹åºé€€å‡ºç ï¼ˆæœ¬ç¨‹åºä¸ºå¾ªç¯è¿è¡Œï¼Œæ­£å¸¸æƒ…å†µä¸‹ä¸ä¼šé€€å‡ºï¼‰
  *
- * @note ±¾³ÌĞòÌá¹©ÁËÒ»¸ö½»»¥Ê½²Ëµ¥£¬ÓÃ»§¿ÉÒÔÍ¨¹ıÊäÈëÃüÁîÀ´²âÊÔ²»Í¬µÄPSDK¹¦ÄÜÄ£¿é
- *       ³ÌĞò»á³ÖĞøÔËĞĞ£¬µÈ´ıÓÃ»§ÊäÈëÃüÁî
+ * @note æœ¬ç¨‹åºæä¾›äº†ä¸€ä¸ªäº¤äº’å¼èœå•ï¼Œç”¨æˆ·å¯ä»¥é€šè¿‡è¾“å…¥å‘½ä»¤æ¥æµ‹è¯•ä¸åŒçš„PSDKåŠŸèƒ½æ¨¡å—
+ *       ç¨‹åºä¼šæŒç»­è¿è¡Œï¼Œç­‰å¾…ç”¨æˆ·è¾“å…¥å‘½ä»¤
  */
 int main(int argc, char **argv)
 {
-    // ´´½¨Application¶ÔÏó£¬¸ºÔğÏµÍ³³õÊ¼»¯ºÍSDKÆô¶¯
+    // åˆ›å»ºApplicationå¯¹è±¡ï¼Œè´Ÿè´£ç³»ç»Ÿåˆå§‹åŒ–å’ŒSDKå¯åŠ¨
     Application application(argc, argv);
-    // ÓÃ»§ÊäÈë×Ö·û±äÁ¿£¬ÓÃÓÚ½ÓÊÕ²Ëµ¥Ñ¡Ôñ
+    // ç”¨æˆ·è¾“å…¥å­—ç¬¦å˜é‡ï¼Œç”¨äºæ¥æ”¶èœå•é€‰æ‹©
     char inputChar;
-    // »ñÈ¡OSAL£¨²Ù×÷ÏµÍ³³éÏó²ã£©´¦ÀíÆ÷£¬ÓÃÓÚ¿çÆ½Ì¨²Ù×÷
+    // è·å–OSALï¼ˆæ“ä½œç³»ç»ŸæŠ½è±¡å±‚ï¼‰å¤„ç†å™¨ï¼Œç”¨äºè·¨å¹³å°æ“ä½œ
     T_DjiOsalHandler *osalHandler = DjiPlatform_GetOsalHandler();
-    // SDK·µ»ØÂë±äÁ¿
+    // SDKè¿”å›ç å˜é‡
     T_DjiReturnCode returnCode;
-    // ¸ß¹¦ÂÊÉêÇë´¦ÀíÆ÷£¨ÓÃÓÚE-PortµÈĞèÒª¸ß¹¦ÂÊµÄ³¡¾°£©
+    // é«˜åŠŸç‡ç”³è¯·å¤„ç†å™¨ï¼ˆç”¨äºE-Portç­‰éœ€è¦é«˜åŠŸç‡çš„åœºæ™¯ï¼‰
     T_DjiTestApplyHighPowerHandler applyHighPowerHandler;
 
-// ³ÌĞòÖ÷Ñ­»·±êÇ©£¬ÓÃÓÚÊµÏÖ²Ëµ¥µÄÑ­»·ÏÔÊ¾
+// ç¨‹åºä¸»å¾ªç¯æ ‡ç­¾ï¼Œç”¨äºå®ç°èœå•çš„å¾ªç¯æ˜¾ç¤º
 start:
-    // ÏÔÊ¾¹¦ÄÜ²Ëµ¥
+    // æ˜¾ç¤ºåŠŸèƒ½èœå•
     std::cout
         << "\n"
         << "| Available commands:                                                                              |\n"
         << "| [0] Fc subscribe sample - subscribe quaternion and gps data                                      |\n"
-        << "|     ·É¿Ø¶©ÔÄÊ¾Àı - ¶©ÔÄËÄÔªÊıºÍGPSÊı¾İ                                                          |\n"
+        << "|     é£æ§è®¢é˜…ç¤ºä¾‹ - è®¢é˜…å››å…ƒæ•°å’ŒGPSæ•°æ®                                                          |\n"
         << "| [1] Flight controller sample - you can control flying by PSDK                                    |\n"
-        << "|     ·ÉĞĞ¿ØÖÆÊ¾Àı - Í¨¹ıPSDK¿ØÖÆ·ÉĞĞ                                                            |\n"
+        << "|     é£è¡Œæ§åˆ¶ç¤ºä¾‹ - é€šè¿‡PSDKæ§åˆ¶é£è¡Œ                                                            |\n"
         << "| [2] Hms info manager sample - get health manger system info by language                          |\n"
-        << "|     ½¡¿µ¹ÜÀíÏµÍ³Ê¾Àı - »ñÈ¡½¡¿µ¹ÜÀíÏµÍ³ĞÅÏ¢£¨Ö§³Ö¶àÓïÑÔ£©                                      |\n"
+        << "|     å¥åº·ç®¡ç†ç³»ç»Ÿç¤ºä¾‹ - è·å–å¥åº·ç®¡ç†ç³»ç»Ÿä¿¡æ¯ï¼ˆæ”¯æŒå¤šè¯­è¨€ï¼‰                                      |\n"
         << "| [a] Gimbal manager sample - you can control gimbal by PSDK                                       |\n"
-        << "|     ÔÆÌ¨¹ÜÀíÊ¾Àı - Í¨¹ıPSDK¿ØÖÆÔÆÌ¨                                                            |\n"
+        << "|     äº‘å°ç®¡ç†ç¤ºä¾‹ - é€šè¿‡PSDKæ§åˆ¶äº‘å°                                                            |\n"
         << "| [c] Camera stream view sample - display camera video stream                                  |\n"
-        << "|     Ïà»úÊÓÆµÁ÷Ê¾Àı - ÏÔÊ¾Ïà»úÊÓÆµÁ÷                                                            |\n"
+        << "|     ç›¸æœºè§†é¢‘æµç¤ºä¾‹ - æ˜¾ç¤ºç›¸æœºè§†é¢‘æµ                                                            |\n"
         << "| [d] Stereo vision view sample - display stereo image                                         |\n"
-        << "|     Ë«Ä¿ÊÓ¾õÊ¾Àı - ÏÔÊ¾Ë«Ä¿Í¼Ïñ                                                                |\n"
+        << "|     åŒç›®è§†è§‰ç¤ºä¾‹ - æ˜¾ç¤ºåŒç›®å›¾åƒ                                                                |\n"
         << "| [e] Run camera manager sample - you can test camera's functions interactively                    |\n"
-        << "|     Ïà»ú¹ÜÀíÊ¾Àı - ½»»¥Ê½²âÊÔÏà»ú¹¦ÄÜ                                                          |\n"
+        << "|     ç›¸æœºç®¡ç†ç¤ºä¾‹ - äº¤äº’å¼æµ‹è¯•ç›¸æœºåŠŸèƒ½                                                          |\n"
         << "| [f] Start rtk positioning sample - you can receive rtk rtcm data when rtk signal is ok           |\n"
-        << "|     RTK¶¨Î»Ê¾Àı - ÔÚRTKĞÅºÅÕı³£Ê±½ÓÊÕRTK RTCMÊı¾İ                                            |\n"
+        << "|     RTKå®šä½ç¤ºä¾‹ - åœ¨RTKä¿¡å·æ­£å¸¸æ—¶æ¥æ”¶RTK RTCMæ•°æ®                                            |\n"
         << "| [g] Request Lidar data sample - Request Lidar data and store point cloud data as pcd files   |\n"
-        << "|     ¼¤¹âÀ×´ïÊı¾İÊ¾Àı - ÇëÇó¼¤¹âÀ×´ïÊı¾İ²¢½«µãÔÆÊı¾İ´æ´¢ÎªPCDÎÄ¼ş                             |\n"
+        << "|     æ¿€å…‰é›·è¾¾æ•°æ®ç¤ºä¾‹ - è¯·æ±‚æ¿€å…‰é›·è¾¾æ•°æ®å¹¶å°†ç‚¹äº‘æ•°æ®å­˜å‚¨ä¸ºPCDæ–‡ä»¶                             |\n"
         << "| [h] Request Radar data sample - Request radar data                                               |\n"
-        << "|     ºÁÃ×²¨À×´ïÊı¾İÊ¾Àı - ÇëÇóÀ×´ïÊı¾İ                                                          |\n"
+        << "|     æ¯«ç±³æ³¢é›·è¾¾æ•°æ®ç¤ºä¾‹ - è¯·æ±‚é›·è¾¾æ•°æ®                                                          |\n"
         << std::endl;
 
-    // »ñÈ¡ÓÃ»§ÊäÈë
+    // è·å–ç”¨æˆ·è¾“å…¥
     std::cin >> inputChar;
-    // ¸ù¾İÓÃ»§ÊäÈëÖ´ĞĞ¶ÔÓ¦µÄ¹¦ÄÜÄ£¿é
+    // æ ¹æ®ç”¨æˆ·è¾“å…¥æ‰§è¡Œå¯¹åº”çš„åŠŸèƒ½æ¨¡å—
     switch (inputChar)
     {
     case '0':
-        // ÔËĞĞ·É¿ØÊı¾İ¶©ÔÄÊ¾Àı
+        // è¿è¡Œé£æ§æ•°æ®è®¢é˜…ç¤ºä¾‹
         DjiTest_FcSubscriptionRunSample();
         break;
     case '1':
-        // ÔËĞĞ·ÉĞĞ¿ØÖÆÊ¾Àı
+        // è¿è¡Œé£è¡Œæ§åˆ¶ç¤ºä¾‹
         DjiUser_RunFlightControllerSample();
         break;
     case '2':
-        // ÔËĞĞ½¡¿µ¹ÜÀíÏµÍ³Ê¾Àı
+        // è¿è¡Œå¥åº·ç®¡ç†ç³»ç»Ÿç¤ºä¾‹
         DjiUser_RunHmsManagerSample();
         break;
     case 'a':
-        // ÔËĞĞÔÆÌ¨¹ÜÀíÊ¾Àı
+        // è¿è¡Œäº‘å°ç®¡ç†ç¤ºä¾‹
         DjiUser_RunGimbalManagerSample();
         break;
     case 'c':
-        // ÔËĞĞÏà»úÊÓÆµÁ÷ÏÔÊ¾Ê¾Àı
+        // è¿è¡Œç›¸æœºè§†é¢‘æµæ˜¾ç¤ºç¤ºä¾‹
         DjiUser_RunCameraStreamViewSample();
         break;
     case 'd':
-        // ÔËĞĞË«Ä¿ÊÓ¾õÏÔÊ¾Ê¾Àı
+        // è¿è¡ŒåŒç›®è§†è§‰æ˜¾ç¤ºç¤ºä¾‹
         DjiUser_RunStereoVisionViewSample();
         break;
     case 'e':
-        // ÔËĞĞÏà»ú¹ÜÀíÊ¾Àı
+        // è¿è¡Œç›¸æœºç®¡ç†ç¤ºä¾‹
         DjiUser_RunCameraManagerSample();
         break;
     case 'f':
-        // Æô¶¯RTK¶¨Î»·şÎñ
+        // å¯åŠ¨RTKå®šä½æœåŠ¡
         returnCode = DjiTest_PositioningStartService();
-        // ¼ì²é³õÊ¼»¯ÊÇ·ñ³É¹¦
+        // æ£€æŸ¥åˆå§‹åŒ–æ˜¯å¦æˆåŠŸ
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
             USER_LOG_ERROR("rtk positioning sample init error");
@@ -164,22 +164,22 @@ start:
         USER_LOG_INFO("Start rtk positioning sample successfully");
         break;
     case 'g':
-        // ÔËĞĞ¼¤¹âÀ×´ïÊı¾İ¶©ÔÄÊ¾Àı
+        // è¿è¡Œæ¿€å…‰é›·è¾¾æ•°æ®è®¢é˜…ç¤ºä¾‹
         DjiUser_RunLidarDataSubscriptionSample();
         break;
     case 'h':
-        // ÔËĞĞºÁÃ×²¨À×´ïÊı¾İ¶©ÔÄÊ¾Àı
+        // è¿è¡Œæ¯«ç±³æ³¢é›·è¾¾æ•°æ®è®¢é˜…ç¤ºä¾‹
         DjiUser_RunRadarDataSubscriptionSample();
         break;
     default:
-        // ÎŞĞ§ÊäÈë£¬Ö±½Ó·µ»Ø²Ëµ¥
+        // æ— æ•ˆè¾“å…¥ï¼Œç›´æ¥è¿”å›èœå•
         break;
     }
 
-    // µÈ´ı2ÃëºóÖØĞÂÏÔÊ¾²Ëµ¥
+    // ç­‰å¾…2ç§’åé‡æ–°æ˜¾ç¤ºèœå•
     osalHandler->TaskSleepMs(2000);
 
-    // Ìø×ªµ½³ÌĞò¿ªÊ¼´¦£¬ÊµÏÖÑ­»·²Ëµ¥
+    // è·³è½¬åˆ°ç¨‹åºå¼€å§‹å¤„ï¼Œå®ç°å¾ªç¯èœå•
     goto start;
 }
 
