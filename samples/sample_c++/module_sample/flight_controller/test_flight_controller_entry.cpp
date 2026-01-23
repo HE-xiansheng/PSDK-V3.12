@@ -68,51 +68,52 @@ start:
         << std::endl;
 
     std::cin >> inputSelectSample;
-    switch (inputSelectSample) {
-        case '0':
-            DjiUser_RunFlightControllerCommandFlyingSample();
-            goto start;
-        case '1':
-            DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_TAKE_OFF_LANDING);
-            goto start;
-        case '2':
-            DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_TAKE_OFF_POSITION_CTRL_LANDING);
-            goto start;
-        case '3':
-            DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_TAKE_OFF_GO_HOME_FORCE_LANDING);
-            goto start;
-        case '4':
-            DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_TAKE_OFF_VELOCITY_CTRL_LANDING);
-            goto start;
-        case '5':
-            DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_ARREST_FLYING);
-            goto start;
-        case '6':
-            DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_SET_GET_PARAM);
-            goto start;
-        case '7':
-            DjiTest_WaypointV2RunSample();
-            break;
-        case '8':
-            DjiTest_WaypointV3RunSample();
-            break;
-        case '9':
-            DjiTest_InterestPointRunSample();
-            break;
-        case 'a':
-            DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_FTS_TRIGGER);
-            break;
-        case 'b':
-            DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_SLOW_ROTATE_BLADE);
-            break;
-        case 'c':
-            DjiTest_FlightControlFtsPwmTriggerSample();
-            break;
-        case 'q':
-            break;
-        default:
-            USER_LOG_ERROR("Input command is invalid");
-            goto start;
+    switch (inputSelectSample)
+    {
+    case '0':
+        DjiUser_RunFlightControllerCommandFlyingSample();
+        goto start;
+    case '1':
+        DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_TAKE_OFF_LANDING);
+        goto start;
+    case '2':
+        DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_TAKE_OFF_POSITION_CTRL_LANDING);
+        goto start;
+    case '3':
+        DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_TAKE_OFF_GO_HOME_FORCE_LANDING);
+        goto start;
+    case '4':
+        DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_TAKE_OFF_VELOCITY_CTRL_LANDING);
+        goto start;
+    case '5':
+        DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_ARREST_FLYING);
+        goto start;
+    case '6':
+        DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_SET_GET_PARAM);
+        goto start;
+    case '7':
+        DjiTest_WaypointV2RunSample();
+        break;
+    case '8':
+        DjiTest_WaypointV3RunSample();
+        break;
+    case '9':
+        DjiTest_InterestPointRunSample();
+        break;
+    case 'a':
+        DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_FTS_TRIGGER);
+        break;
+    case 'b':
+        DjiTest_FlightControlRunSample(E_DJI_TEST_FLIGHT_CTRL_SAMPLE_SELECT_SLOW_ROTATE_BLADE);
+        break;
+    case 'c':
+        DjiTest_FlightControlFtsPwmTriggerSample();
+        break;
+    case 'q':
+        break;
+    default:
+        USER_LOG_ERROR("Input command is invalid");
+        goto start;
     }
 }
 
