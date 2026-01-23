@@ -581,12 +581,12 @@ start:
         }
 
         // 3.获取云台数据
-        T_DjiFcSubscriptionGimbalAngles gimbalAngles = {0};
+        T_DjiFcSubscriptionThreeGimbalData threeGimbalData = {0};
         T_DjiDataTimestamp timestamp = {0};
         returnCode = DjiFcSubscription_GetLatestValueOfTopic(DJI_FC_SUBSCRIPTION_TOPIC_THREE_GIMBAL_DATA, // 订阅主题
-                                                             (uint8_t *)&gimbalAngles,                    // 订阅数据地址
-                                                             sizeof(T_DjiFcSubscriptionGimbalAngles),     // 订阅数据长度
-                                                             &timestamp);                                 // 时间戳
+                                                             (uint8_t *)&threeGimbalData,                 // 订阅数据地址
+                                                             sizeof(T_DjiFcSubscriptionThreeGimbalData),
+                                                             &timestamp); // 时间戳
         if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
         {
             USER_LOG_ERROR("获取云台数据失败，错误码: 0x%08X", returnCode);
@@ -594,12 +594,17 @@ start:
         }
 
         // 4.显示云台数据
-        USER_LOG_INFO("读取云台角度(俯仰, 横滚, 偏航): p=%.4f r=%.4f y=%.4f",
-                      gimbalAngles.x, gimbalAngles.y, gimbalAngles.z);
+        USER_LOG_INFO("云台1角度(俯仰, 横滚, 偏航): p=%.4f r=%.4f y=%.4f",
+                      threeGimbalData.anglesData[0].pitch,
+                      threeGimbalData.anglesData[0].roll,
+                      threeGimbalData.anglesData[0].yaw); //
 
         // 5.反初始化云台管理器
         returnCode = DjiGimbalManager_Deinit();
-
+        if (returnCode != DJI_ERROR_SYSTEM_MODULE_CODE_SUCCESS)
+        {
+            USER_LOG_ERROR("反初始化云台管理器失败，错误码: 0x%08X", returnCode);
+        }
         goto start; // 返回主菜单
         break;
     }
